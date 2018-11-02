@@ -1,6 +1,7 @@
 from flask import current_app, g
 from flask.cli import with_appcontext
-from shortener import db
+from app import db
+
 
 class User(db.Model):
     """
