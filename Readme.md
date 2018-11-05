@@ -6,3 +6,9 @@ Still a work in progress, but to run
     flask run
 
 Migrations and DB config still need to be completed.
+
+
+#####Testing
+
+    $ pip install '.[test]'
+    $ pytest
