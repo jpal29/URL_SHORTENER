@@ -3,6 +3,8 @@ import os
 import pytest
 from shortener import create_app
 
+print(os.path.dirname(__file__))
+
 @pytest.fixture
 def app():
 
