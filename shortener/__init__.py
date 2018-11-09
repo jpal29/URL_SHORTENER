@@ -1,10 +1,18 @@
 import os
 
 from flask import Flask, render_template
-from shortener import url_shorten
+from shortener import (
+    url_shorten, auth
+)
+
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+
+
+    app.config.from_mapping(
+        SECRET_KEY='dev',
+    )
 
     if test_config is not None:
         app.config.update(test_config)
@@ -19,8 +27,13 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
+    # register the database commands
+    from shortener import db
+    db.init_app(app)
+
     #apply the blueprints to the app
     app.register_blueprint(url_shorten.bp)
+    app.register_blueprint(auth.bp)
 
     #One way to verify that the app has successfully registered the blueprint
     #print(app.url_map)
