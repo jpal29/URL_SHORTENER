@@ -9,10 +9,13 @@ print(os.path.dirname(__file__))
 def app():
 
     app = create_app({
-        'TESTING': True
+        'TESTING': True,
     })
 
     yield app
+
+    #TODO remove the data from the database once all of the tests have run
+
 
 @pytest.fixture
 def client(app):
