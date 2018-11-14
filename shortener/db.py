@@ -3,11 +3,13 @@ from flask import current_app, g
 from flask.cli import with_appcontext
 import mysql.connector
 
-from dotenv import load_dotenv
+import configparser
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-load_dotenv(os.path.join(basedir, '.env'))
+
+config = configparser.ConfigParser()
+config.read(os.path.join(basedir, 'config.ini'))
 
 def get_db():
     """
@@ -16,13 +18,20 @@ def get_db():
     """
 
     if 'db' not in g:
-        g.db = mysql.connector.connect(
-            host=os.getenv('shortener_db_host'),
-            user=os.getenv('shortener_db_user'),
-            passwd=os.getenv('shortener_db_password'),
-            database=os.getenv('shortener_db_name')
-        )
-
+        if current_app.config['TESTING']:
+            g.db = mysql.connector.connect(
+                host=config['TESTING']['shortener_db_host'],
+                user=config['TESTING']['shortener_db_user'],
+                passwd=config['TESTING']['shortener_db_password'],
+                database=config['TESTING']['shortener_db_name']
+            )
+        else:
+            g.db = mysql.connector.connect(
+                host=config['DEVELOPMENT']['shortener_db_host'],
+                user=config['DEVELOPMENT']['shortener_db_user'],
+                passwd=config['DEVELOPMENT']['shortener_db_password'],
+                database=config['DEVELOPMENT']['shortener_db_name']
+            )
         return g.db
 
 def close_db(e=None):
