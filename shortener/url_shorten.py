@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Blueprint, render_template, redirect, url_for, request
+    Blueprint, render_template, redirect, url_for, request, make_response
 )
 
 #Need to make sure the blueprint knows what to go by.
@@ -12,7 +12,10 @@ def index():
     """Just show a basic html page for now"""
     if request.method == 'POST':
         url = request.form['url']
-        #db = get_db()
+        db = get_db()
+
+
+
         print(url)
         error = None
 
