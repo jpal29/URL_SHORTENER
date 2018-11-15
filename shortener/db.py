@@ -32,7 +32,7 @@ def get_db():
                 passwd=config['DEVELOPMENT']['shortener_db_password'],
                 database=config['DEVELOPMENT']['shortener_db_name']
             )
-        return g.db
+    return g.db
 
 def close_db(e=None):
     """
