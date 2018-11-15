@@ -8,14 +8,9 @@
 
 
 
-        <h1>Index Page</h1>
-
-
-        <form method="post">
-            <label for="url">URL</label>
-            <input name="url" id="url" required>
-            <input type="submit" value="Shorten!">
-        </form>
-
+        <h1>Shorten that URL Index Page</h1>
+        {% if short_url %}
+            <p>{{ short_url }}</p>
+        {% endif %}
 </body>
 </html>
