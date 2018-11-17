@@ -14,28 +14,10 @@ from shortener.encode import toBase64
 bp = Blueprint('url_shorten', __name__)
 
 @bp.route('/', methods=('GET', 'POST'))
-def index():
-    """Just show a basic html page for now"""
-    if request.method == 'POST':
-        url = request.form['url']
-        db = get_db()
-
-
-
-        print(url)
-        error = None
-
-        if not url:
-            error = 'URL is required'
-
-        if error is None:
-            return redirect(url_for('url_shorten.index'))
-    return render_template('index.html')
-
-@bp.route('/shorten', methods=('GET', 'POST'))
 @login_required
-def shorten():
+def index():
     """Create a new shortened url."""
+    print(g.user)
     if request.method == 'POST':
         url = request.form['url']
         error = None
@@ -56,23 +38,20 @@ def shorten():
                 (g.user[0], decoded_b64_url, )
             )
             db.commit()
-            print('URL ID: {}'.format(db_cursor.lastrowid))
-            encoded_string_1 = toBase64(db_cursor.lastrowid)
-            encoded_string_2 = toBase64(22111)
-            print('Encoded String 1: {}'.format(encoded_string_1))
-            print('Encoded String 2: {}'.format(encoded_string_2))
-            return render_template('index.html', short_url=encoded_string_2)
-    return render_template('shorten.html')
+            encoded_id = toBase64(db_cursor.lastrowid)
+            return render_template('index.html', short_url='https://127.0.0.1:5000/{}'.format(encoded_id))
+    return render_template('index.html')
 
 @bp.route('/<short_url>')
 def redirect_short_url(short_url):
     decoded = toBase10(short_url)
+    print('Decoded: {}'.format(decoded))
     url = 'http://127.0.0.1:5000'  # fallback if no URL is found
     db = get_db()
     db_cursor = db.cursor(buffered=True)
-    res = db_cursor.execute('SELECT url FROM urls WHERE id=%s', (decoded))
+    db_cursor.execute('SELECT url FROM urls WHERE id=%s', (decoded,))
     try:
-        short = res.fetchone()
+        short = db_cursor.fetchone()
         if short is not None:
             url = base64.urlsafe_b64decode(short[0])
     except Exception as e:
