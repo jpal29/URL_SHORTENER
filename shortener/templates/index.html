@@ -16,5 +16,12 @@
             <input type="submit" value="Shorten!">
         </form>
     {% endif %}
+
+    <ul>
+        {% for url in formatted_urls %}
+        <li><a href="{{ url }}">{{ url }}</a></li>
+        {% endfor %}
+    </ul>
+
 {% endblock %}
 
