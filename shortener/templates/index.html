@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index Page</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
+{% block header %}
+  <h1>{% block title %}URL Shortener{% endblock %}</h1>
+{% endblock %}
 
+{% block content %}
+    {% if short_url %}
+        <p><a href="{{ short_url }}">{{ short_url }}</a></p>
+    {% endif %}
 
-        <h1>Shorten that URL Index Page</h1>
-        {% if short_url %}
-            <p>{{ short_url }}</p>
-        {% endif %}
-</body>
-</html>
+    {% if g.user %}
+        <form method="post">
+            <label for="url">URL</label>
+            <input name="url" id="url" required>
+            <input type="submit" value="Shorten!">
+        </form>
+    {% endif %}
+{% endblock %}
+
