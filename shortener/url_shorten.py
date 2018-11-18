@@ -16,7 +16,6 @@ bp = Blueprint('url_shorten', __name__)
 @bp.route('/', methods=('GET', 'POST'))
 def index():
     """Create a new shortened url."""
-    print(g.user)
     if request.method == 'POST':
         url = request.form['url']
         error = None
@@ -39,8 +38,26 @@ def index():
             db.commit()
             encoded_id = toBase64(db_cursor.lastrowid)
             #TODO need to change host to https instead of http
-            return render_template('index.html', short_url='http://127.0.0.1:5000/{}'.format(encoded_id))
-    return render_template('index.html')
+            return redirect(url_for('url_shorten.shorten',
+                                    short_url='http://127.0.0.1:5000/{}'.format(encoded_id)))
+            #return render_template('shorten.html', short_url='http://127.0.0.1:5000/{}'.format(encoded_id))
+    elif request.method == 'GET':
+        if g.user:
+            db = get_db()
+            db_cursor = db.cursor(buffered=True)
+            db_cursor.execute('SELECT id, url FROM urls WHERE user_id=%s', (g.user[0],))
+            urls = db_cursor.fetchall()
+            # need to change url to base64
+            formatted_urls = []
+            for url in urls:
+                formatted_urls.append('http://127.0.0.1:5000/{}'.format(toBase64(url[0])))
+            return render_template('index.html', formatted_urls=formatted_urls)
+        else:
+            return render_template('index.html')
+
+@bp.route('/shorten', methods=['GET'])
+def shorten():
+    return render_template('shorten.html', short_url=request.args.get('short_url'))
 
 @bp.route('/<short_url>')
 def redirect_short_url(short_url):
