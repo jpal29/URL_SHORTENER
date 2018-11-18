@@ -30,10 +30,6 @@ def create_app(test_config=None):
     from shortener import db
     db.init_app(app)
 
-    # register the login manager
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-
     #apply the blueprints to the app
     app.register_blueprint(url_shorten.bp)
     app.register_blueprint(auth.bp)
