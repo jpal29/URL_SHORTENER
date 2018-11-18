@@ -6,11 +6,13 @@
 </head>
 <body>
     <nav>
-        <h1><a href="{{ url_for('url_shorten.index') }}">Home</a></h1>
-        <ul>
-            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-        </ul>
-
+        <a href="{{ url_for('url_shorten.index') }}">Home</a>
+        {% if not g.user %}
+            <ul>
+                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            </ul>
+        {% endif %}
     </nav>
 
     <section class="content">
