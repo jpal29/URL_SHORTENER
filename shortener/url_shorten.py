@@ -14,7 +14,6 @@ from shortener.encode import toBase64
 bp = Blueprint('url_shorten', __name__)
 
 @bp.route('/', methods=('GET', 'POST'))
-@login_required
 def index():
     """Create a new shortened url."""
     print(g.user)
@@ -39,13 +38,15 @@ def index():
             )
             db.commit()
             encoded_id = toBase64(db_cursor.lastrowid)
-            return render_template('index.html', short_url='https://127.0.0.1:5000/{}'.format(encoded_id))
+            #TODO need to change host to https instead of http
+            return render_template('index.html', short_url='http://127.0.0.1:5000/{}'.format(encoded_id))
     return render_template('index.html')
 
 @bp.route('/<short_url>')
 def redirect_short_url(short_url):
     decoded = toBase10(short_url)
     print('Decoded: {}'.format(decoded))
+    #TODO need to change host to https instead of http
     url = 'http://127.0.0.1:5000'  # fallback if no URL is found
     db = get_db()
     db_cursor = db.cursor(buffered=True)
