@@ -1,6 +1,6 @@
 import os
-
-from flask import Flask, render_template
+import datetime
+from flask import Flask, render_template, session
 from shortener import (
     url_shorten, auth
 )
@@ -22,10 +22,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
     # register the database commands
     from shortener import db
     db.init_app(app)
@@ -33,6 +29,9 @@ def create_app(test_config=None):
     #apply the blueprints to the app
     app.register_blueprint(url_shorten.bp)
     app.register_blueprint(auth.bp)
+
+    #setting session to timeout after 2 hours
+    app.permanent_session_lifetime = datetime.timedelta(hours=2)
 
     #One way to verify that the app has successfully registered the blueprint
     #print(app.url_map)
