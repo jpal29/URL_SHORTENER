@@ -26,7 +26,6 @@ def load_logged_in_user():
     """
     If a user id is stored in the session, load the user object from the database into ``g.user``.
     """
-    print(session.get('user_id'))
     user_id = session.get('user_id')
 
 
@@ -111,7 +110,6 @@ def login():
             session['user_id'] = user[0]
             return redirect(url_for('url_shorten.index'))
 
-        # TODO create login template
     return render_template('auth/login.html')
 
 @bp.route('/logout')
