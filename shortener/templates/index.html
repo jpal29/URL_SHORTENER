@@ -5,15 +5,14 @@
 {% endblock %}
 
 {% block content %}
-
     {% if g.user %}
         <form method="post">
             <label for="url">URL</label>
             <input name="url" id="url" required>
             <input type="submit" value="Shorten!">
         </form>
+        <button id="edit" type="button">Edit</button>
     {% endif %}
-
     <ul>
         {% for formatted_url in formatted_urls %}
             <div class="container-name">
@@ -21,11 +20,12 @@
                     <form method="POST" action="/delete">
                       <a href="{{ formatted_url.url }}">{{ formatted_url.url }}</a>
                       <input type="hidden" value="{{formatted_url.url_id}}" name="url_id">
-                      <input type="submit" value="Delete">
+                      <input class="delete-input" type="submit" value="Delete">
                     </form>
                 </li>
             </div>
         {% endfor %}
+
     </ul>
 
 {% endblock %}
