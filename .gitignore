@@ -19,3 +19,5 @@ migrations/
 *.idea
 
 shortener/static/node_modules/
+
+shortener/static/js/lib/
