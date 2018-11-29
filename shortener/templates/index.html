@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}URL Shortener{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -12,21 +11,28 @@
             <input type="submit" value="Shorten!">
         </form>
         <button id="edit" type="button">Edit</button>
-    {% endif %}
-    <ul>
-        {% for formatted_url in formatted_urls %}
-            <div class="container-name">
-                <li>
-                    <form method="POST" action="/delete">
-                      <a href="{{ formatted_url.url }}">{{ formatted_url.url }}</a>
-                      <input type="hidden" value="{{formatted_url.url_id}}" name="url_id">
-                      <input class="delete-input" type="submit" value="Delete">
-                    </form>
-                </li>
-            </div>
-        {% endfor %}
+        <ul>
+            {% for formatted_url in formatted_urls %}
+                <div class="container-name">
+                    <li>
+                        <form method="POST" action="/delete">
+                          <a href="{{ formatted_url.url }}">{{ formatted_url.url }}</a>
+                          <input type="hidden" value="{{formatted_url.url_id}}" name="url_id">
+                          <input class="delete-input" type="submit" value="Delete">
+                        </form>
+                    </li>
+                </div>
+            {% endfor %}
 
-    </ul>
+        </ul>
+    {% else %}
+        <h4>
+            The one stop shop for url shortening. Need a URL to be sliced and diced? Then we have
+            what you need.
+        </h4>
+
+    {% endif %}
+
 
 {% endblock %}
 
