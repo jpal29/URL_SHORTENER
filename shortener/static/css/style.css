@@ -13,14 +13,23 @@ input[type=text], input[type=password] {
 }
 
 /* Set a style for all buttons */
-button {
-    background-color: #4CAF50;
+
+.stacked-button {
+    background-color: #193D72;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
+}
+
+
+.shorten-button {
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 button:hover {
@@ -37,12 +46,20 @@ button:hover {
     font-size: 14px;
 }
 
+.form-inline > * {
+    margin: 5px 3px;
+}
+
 .nav-link {
     color: white;
 }
 
 .navbar-brand {
     color: white;
+}
+
+.navbar {
+    background-color: #193D72;
 }
 
 
