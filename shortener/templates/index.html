@@ -5,11 +5,14 @@
 
 {% block content %}
     {% if g.user %}
-        <form method="post">
-            <label for="url">URL</label>
-            <input name="url" id="url" required>
-            <input type="submit" value="Shorten!">
-        </form>
+
+        <div class="container-fluid">
+                    <form class="form-inline justify-content-center" method="post">
+                        <label for="url">URL: </label>
+                        <input class="form-control" name="url" id="url" required>
+                        <button class="btn btn-default" type="submit" value="Shorten">Shorten</button>
+                    </form>
+        </div>
         <button id="edit" type="button">Edit</button>
         <ul>
             {% for formatted_url in formatted_urls %}
