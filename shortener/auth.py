@@ -68,7 +68,7 @@ def register():
                 'SELECT id from users WHERE username=%s', (username,)
             )
             if db_cursor.fetchone() is not None:
-                error = 'User {0} is already registered.'.format(username)
+                error = 'Username is taken, please use another.'.format(username)
 
         if error is None:
             #The name is available, store it in the database and go to
@@ -100,15 +100,17 @@ def login():
         user = db_cursor.fetchone()
         print(user)
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Incorrect username or password, please try again.'
         elif not check_password_hash(user[2], password):
-            error = 'Incorrect password.'
+            error = 'Incorrect username or password, please try again.'
 
         if error is None:
             # store the user id in a new session and return to the index
             session.clear()
             session['user_id'] = user[0]
             return redirect(url_for('url_shorten.index'))
+
+        flash(error)
 
     return render_template('auth/login.html')
 
