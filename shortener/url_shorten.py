@@ -64,6 +64,7 @@ def index():
         return render_template('index.html')
 
 @bp.route('/shorten', methods=['GET'])
+@login_required
 def shorten():
     return render_template('shorten.html', short_url=request.args.get('short_url'))
 
