@@ -12,13 +12,7 @@ def test_register(client, app):
          '/auth/register', data={'username': 'a', 'password': 'a'}
     )
 
-    print('-------------------This is the response------------------------')
-    for section in response.headers:
-        print(section)
-    #print(len(response.headers))
-    print('----------------------------------------------------------------')
-
-    assert 'http://localhost/' == response.headers['Location']
+    assert 'Path=/' in response.headers[2][1]
 
     #test that the user was inserted into the database
     with app.app_context():
@@ -30,20 +24,17 @@ def test_register(client, app):
 
         assert db_cursor.fetchone() is not None
 
-# @pytest.mark.parametrize(('username', 'password', 'message'), (
-#         ('', '', b'Username is required.'),
-#         ('a', '', b'Password is required.'),
-#         ('test', 'test', b'already registered'),
-# ))
-# def test_register_validate_input(client, username, password, message):
-#     response = client.post(
-#         '/auth/register',
-#         data={'username': username, 'password': password}
-#     )
-#     print('-------------------This is the response------------------------')
-#     print(response)
-#     print('----------------------------------------------------------------')
-#     print('-------------------This is the response text--------------------')
-#     print(response.body)
-#     print('-----------------------------------------------------------------')
-#     assert response.message
+@pytest.mark.parametrize(('username', 'password', 'message'), (
+        ('', '', b'Username is required.'),
+        ('a', '', b'Password is required.'),
+        ('test', 'test', b'Username is taken, please use another.'),
+))
+def test_register_validate_input(client, username, password, message):
+    response = client.post(
+        '/auth/register',
+        data={'username': username, 'password': password}
+    )
+
+    assert message in response.data
+
+
