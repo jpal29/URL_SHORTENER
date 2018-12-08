@@ -33,8 +33,10 @@ def index():
             flash(error)
             return redirect(url_for('url_shorten.index'))
         else:
+            #url is string and it needs to be encoded in bytes to be b64 encoded
             encoded_url = str.encode(url)
             b64_url = base64.urlsafe_b64encode(encoded_url)
+            #b64_url is in bytes and it needs to be converted to string to be inserted in db table
             decoded_b64_url = b64_url.decode()
             db_cursor.execute(
                 'INSERT INTO urls (user_id, url) '
