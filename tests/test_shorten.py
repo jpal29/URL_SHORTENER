@@ -6,6 +6,7 @@ from shortener.db import get_db
 
 def test_index(client):
     response = client.get('/')
+    assert response.status_code == 200
     assert b"Login" in response.data
     assert b"Register" in response.data
     assert b"The one stop shop for url shortening." in response.data
