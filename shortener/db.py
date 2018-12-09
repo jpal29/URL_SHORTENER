@@ -20,10 +20,10 @@ def get_db():
     if 'db' not in g:
         if current_app.config['TESTING']:
             g.db = mysql.connector.connect(
-                host=config['TESTING']['shortener_db_host'],
-                user=config['TESTING']['shortener_db_user'],
-                passwd=config['TESTING']['shortener_db_password'],
-                database=config['TESTING']['shortener_db_name']
+                host='localhost',
+                user='testing',
+                passwd='testing',
+                database='test_url_shortener'
             )
         else:
             g.db = mysql.connector.connect(
