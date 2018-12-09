@@ -10,6 +10,7 @@ install:
 services:
   - mysql
 before_install:
+  - mysql -e 'CREATE DATABASE test_url_shortener;'
   - mysql -u root test_url_shortener < shortener/schema.sql
   - mysql -u root -e "CREATE USER 'testing'@'localhost' IDENTIFIED BY 'testing';"
   - mysql -u root -e "GRANT ALL ON test_url_shortener.* TO 'testing'@'localhost';"
