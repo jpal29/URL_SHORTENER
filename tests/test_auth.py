@@ -9,9 +9,8 @@ def test_register(client, app):
 
     # test that successful registration redirects to the index page
     response = client.post(
-         '/auth/register', data={'username': 'a', 'password': 'a'}
+         '/auth/register', data={'username': 'testing', 'password': 'testing'}
     )
-
     assert 'Path=/' in response.headers[2][1]
 
     #test that the user was inserted into the database
@@ -26,8 +25,8 @@ def test_register(client, app):
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
         ('', '', b'Username is required.'),
-        ('a', '', b'Password is required.'),
-        ('test', 'test', b'Username is taken, please use another.'),
+        ('testing', '', b'Password is required.'),
+        ('testing', 'testing', b'Username is taken, please use another.'),
 ))
 def test_register_validate_input(client, username, password, message):
     response = client.post(
